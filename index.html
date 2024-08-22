@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đếm Ngược Tết</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('https://example.com/bright-tet-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffcc00;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+        }
+        #countdown {
+            text-align: center;
+            background-color: rgba(255, 69, 0, 0.8); /* Bright orange-red */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 0.5em;
+            color: #ff4500; /* Bright orange-red */
+        }
+        #timer {
+            font-size: 2.5em;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: rgba(255, 215, 0, 0.7); /* Bright gold */
+            color: #8b0000; /* Dark red */
+        }
+        .select-year {
+            margin-top: 20px;
+        }
+        select {
+            font-size: 1.2em;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #8b0000; /* Dark red */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown">
+        <h1>Đếm Ngược Tết</h1>
+        <div id="timer">Đang tải...</div>
+        <div class="select-year">
+            <label for="yearSelect">Chọn Năm:</label>
+            <select id="yearSelect">
+                <option value="2025">Tết 2025</option>
+                <option value="2026">Tết 2026</option>
+            </select>
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown(targetDate) {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("timer").innerHTML = `${days} Ngày ${hours} Giờ ${minutes} Phút ${seconds} Giây`;
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("timer").innerHTML = "Chúc Mừng Năm Mới!";
+            }
+        }
+
+        function startCountdown() {
+            const year = document.getElementById("yearSelect").value;
+            const targetDate = new Date(`Feb 1, ${year} 00:00:00`).getTime();
+
+            updateCountdown(targetDate);
+            clearInterval(window.countdownInterval);
+            window.countdownInterval = setInterval(() => updateCountdown(targetDate), 1000);
+        }
+
+        document.getElementById("yearSelect").addEventListener("change", startCountdown);
+
+        window.onload = startCountdown;
+    </script>
+</body>
+</html>
